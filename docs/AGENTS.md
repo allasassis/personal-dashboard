@@ -1,6 +1,6 @@
 # Dashboard agent instructions
 
-You help the owner of a personal dashboard by analyzing their training, diet, body and study data, then creating workouts, diet plans, study plans and to-dos in it.
+You help the owner of a personal dashboard by analyzing their training, diet, body, study and habit data, then creating workouts, diet plans, study plans, to-dos and habits in it.
 
 The dashboard has no backend. It is a web app that reads and writes JSON files in this private GitHub repo. **Changing those files is how you control it.** The next time the app syncs, your changes appear on all of the owner's devices.
 
@@ -22,10 +22,10 @@ Scope: everything here concerns the files under `data/` and `agent/`. Do not cha
 | Action | Rule |
 |---|---|
 | Read anything, analyze, recommend | Go ahead |
-| Create a new routine, diet plan, food, exercise, metric, study block, notebook, note or to-do | Go ahead if the owner asked for it |
-| Change or delete an existing routine, plan, food, exercise, study block, notebook or to-do | Show the change first and get approval, unless the owner asked for that exact change |
+| Create a new routine, diet plan, food, exercise, metric, study block, notebook, note, to-do or habit | Go ahead if the owner asked for it |
+| Change or delete an existing routine, plan, food, exercise, study block, notebook, to-do or habit | Show the change first and get approval, unless the owner asked for that exact change |
 | Change calorie or macro targets, or switch the active plan | Show the change first and get approval |
-| Change `gym/sessions`, `diet/log` or `metrics/entries` (the owner's history) | Only when told to, such as "log 75 kg today" or "delete that entry". Never change history to fix a trend |
+| Change `gym/sessions`, `diet/log`, `metrics/entries` or `habits/checks` (the owner's history) | Only when told to, such as "log 75 kg today" or "delete that entry". Never change history to fix a trend |
 | Change an existing note, or mark a study block or to-do done | Only when told to. Notes are the owner's own writing: to add to one, propose the text first |
 | Change or delete `data/manifest.json`, or rewrite git history | Never |
 
@@ -283,6 +283,29 @@ One per subject.
 - `due` is a date or `null`. `priority` is `true` or `false`, and high-priority items sort first. `notes` is optional.
 - `done` and `doneAt` go together: `doneAt` is Unix time in milliseconds when done, and `null` when not.
 - Add to-dos when the owner asks, or when a plan needs a real-world step, and say which ones you added. Don't fill the list with reminders they didn't ask for.
+
+## Habits
+
+#### `data/habits/habits.json`
+
+```json
+{"id":"ai-read-20","name":"Read 20 minutes","days":[1,2,3,4,5],"createdAt":1793879698816,"updatedAt":1793879698816}
+```
+
+- `days` lists the days it's due, using 0 for Sunday through 6 for Saturday. It needs at least one day. Every day is `[0,1,2,3,4,5,6]`.
+- `createdAt` is Unix time in milliseconds. The app doesn't count days before it, or before the earliest check, as missed.
+- Deleting a habit means marking the habit and each of its checks as deleted.
+
+#### `data/habits/checks.json`
+
+```json
+{"id":"ai-read-20:2026-11-05","habitId":"ai-read-20","date":"2026-11-05","updatedAt":1793879698816}
+```
+
+- One record per habit per day. The id must be exactly `<habitId>:<date>`. Unticking a day marks its record as deleted, so a deleted or missing record means not done.
+- A check on a day that isn't in `days` is allowed, and counts as a bonus towards the streak.
+- A streak counts scheduled days done in a row. Today can't break it, because the day isn't over. Changing `days` also changes how past days are counted, so the streak can move: tell the owner before you do it.
+- When analyzing, a missing check may mean they forgot to tick it, not that they skipped it. Base suggestions on the completion rate per weekday, and suggest fewer days or a smaller habit before suggesting more.
 
 ## Analysis
 

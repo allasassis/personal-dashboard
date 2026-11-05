@@ -22,6 +22,7 @@ const ICONS = {
   book: 'M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM9 3v18M12 8h4',
   star: 'M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8L12 3.5Z',
   pin: 'M9 3h6l-1 7 4 4H6l4-4-1-7ZM12 14v7',
+  repeat: 'M17 3l4 4-4 4M21 7H8a4 4 0 0 0-4 4v1M7 21l-4-4 4-4M3 17h13a4 4 0 0 0 4-4v-1',
   image: 'M4 5h16v14H4zM4 16l5-5 4 4 2-2 5 5M15 9.5v.01',
 } as const;
 
@@ -198,5 +199,25 @@ export const PageHead = ({ title, back, sub, actions }: { title: ReactNode; back
     {actions && <div className="page-actions">{actions}</div>}
   </header>
 );
+
+/**
+ * Keeps a long list on a card from pushing everything else down the page. Items already done
+ * when the card opened go last, while one ticked just now stays put, so a slip is easy to undo.
+ */
+export function useShortList<T extends { id: string }>(items: T[], limit: number, isDone?: (item: T) => boolean) {
+  const [expanded, setExpanded] = useState(false);
+  const [settled] = useState(() => new Set(isDone ? items.filter(isDone).map((i) => i.id) : []));
+  const ordered = [...items.filter((i) => !settled.has(i.id)), ...items.filter((i) => settled.has(i.id))];
+  // Hiding a single row would only swap it for a button of the same size.
+  const hidden = ordered.length > limit + 1 ? ordered.length - limit : 0;
+  return {
+    shown: hidden && !expanded ? ordered.slice(0, limit) : ordered,
+    more: hidden ? (
+      <Button small variant="plain" className="short-more" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
+        {expanded ? 'Show less' : `Show ${hidden} more`}
+      </Button>
+    ) : null,
+  };
+}
 
 export const fmtNum = (n: number, digits = 1) => (Number.isInteger(n) ? String(n) : n.toFixed(digits));

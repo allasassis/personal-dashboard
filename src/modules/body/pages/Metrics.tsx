@@ -44,7 +44,7 @@ export function QuickLog({ metric, compact }: { metric: Pick<MetricDef, 'id' | '
       }}
     >
       <label className="field">
-        <span className="field-label">{metric.name} ({metric.unit})</span>
+        <span className={compact ? 'sr' : 'field-label'}>{metric.name} ({metric.unit})</span>
         <NumberInput value={value} onChange={(n) => { setDraft(n); setSaved(false); }} placeholder="0" className="input-large" />
       </label>
       {!compact && (

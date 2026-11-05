@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type { Route } from '../core/router';
 import type { IconName } from '../core/ui';
 import { bodyModule } from './body';
+import { habitsModule } from './habits';
 import { studiesModule } from './studies';
 import { todoModule } from './todo';
 
@@ -16,4 +17,4 @@ export interface Module {
 }
 
 // To add a module: create src/modules/<name>/index.tsx and list it here.
-export const modules: Module[] = [bodyModule, studiesModule, todoModule];
+export const modules: Module[] = [bodyModule, studiesModule, todoModule, habitsModule];

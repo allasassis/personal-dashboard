@@ -163,11 +163,11 @@ function dueLabel(due: string, today: string) {
   return shortDate(parseDay(due));
 }
 
-export function TodoRow({ todo }: { todo: Todo }) {
+export function TodoRow({ todo, hideToday }: { todo: Todo; hideToday?: boolean }) {
   const [editing, setEditing] = useState(false);
   const today = toDay();
   const overdue = !todo.done && !!todo.due && todo.due < today;
-  const meta = [todo.due && !overdue ? dueLabel(todo.due, today) : null, todo.notes].filter(Boolean).join(' · ');
+  const meta = [todo.due && !overdue && !(hideToday && todo.due === today) ? dueLabel(todo.due, today) : null, todo.notes].filter(Boolean).join(' · ');
   return (
     <div className={`task ${todo.done ? 'is-done' : ''}`}>
       <button type="button" className="set-check" aria-pressed={todo.done} aria-label={`${todo.title} done`} onClick={() => setDone(todo, !todo.done)}>

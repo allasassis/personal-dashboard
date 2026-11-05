@@ -25,10 +25,10 @@ export function MacroMeter({ name, swatch, value, target }: { name: string; swat
   );
 }
 
-export function DaySummary({ totals, target }: { totals: Macros; target: Macros }) {
+export function DaySummary({ totals, target, bare }: { totals: Macros; target: Macros; bare?: boolean }) {
   const left = target.kcal - totals.kcal;
   return (
-    <section className="card day-summary">
+    <section className={bare ? 'day-summary' : 'card day-summary'}>
       <div className="hero-num">
         <strong className="num">{round(totals.kcal)}</strong>
         <span className="muted">of {target.kcal} kcal</span>
