@@ -1,8 +1,8 @@
 # Personal dashboard
 
 A static app with no backend. Your data lives in a private GitHub repo of your own, and
-the browser talks to GitHub directly. Two modules so far: **Body** (workouts, diet, metrics)
-and **Studies** (a weekly study plan, and notebooks with notes and covers).
+the browser talks to GitHub directly. Three modules so far: **Body** (workouts, diet, metrics),
+**Studies** (a weekly study plan, and notebooks with notes and covers) and **To-do**.
 
 ## Run it
 
@@ -76,6 +76,7 @@ data/
   diet/foods.json     diet/plans.json     diet/log.json       diet/settings.json
   metrics/definitions.json                metrics/entries.json
   studies/plan.json   studies/notebooks.json  studies/notes.json  studies/covers.json
+  todo/tasks.json
 ```
 
 Each file holds one record per line, sorted by id, so git history reads as a clean log:
@@ -117,7 +118,7 @@ it syncs with your data. `npm run exercises` regenerates `public/exercises.json`
 
 ## Use it with an AI agent
 
-Copy [`docs/AGENTS.md`](docs/AGENTS.md) to the root of your **data repo** and open your agent there. It explains the file formats and rules, and how to analyze your data and create workouts, diet plans and study plans. For Claude Code, also add a `CLAUDE.md` containing the line `@AGENTS.md`.
+Copy [`docs/AGENTS.md`](docs/AGENTS.md) to the root of your **data repo** and open your agent there. It explains the file formats and rules, and how to analyze your data and create workouts, diet plans, study plans and to-dos. For Claude Code, also add a `CLAUDE.md` containing the line `@AGENTS.md`.
 
 ## License
 

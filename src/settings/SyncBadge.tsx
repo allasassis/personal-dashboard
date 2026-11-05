@@ -28,7 +28,7 @@ export function SyncBadge() {
   return (
     <a className={`sync-badge sync-${tone}`} href="#/settings" title={st.message ?? 'Sync settings'} role="status">
       <span className="sync-dot" aria-hidden="true" />
-      {label}
+      <span className="sync-label">{label}</span>
     </a>
   );
 }

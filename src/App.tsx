@@ -77,6 +77,7 @@ export function App() {
         </main>
       </div>
 
+      {current.nav.length > 1 && (
       <nav className="tabbar" aria-label="Main">
         {current.nav.map((n) => (
           <a key={n.path} href={`#${n.path}`} aria-current={n.path === active ? 'page' : undefined}>
@@ -85,6 +86,7 @@ export function App() {
           </a>
         ))}
       </nav>
+      )}
     </div>
   );
 }

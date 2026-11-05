@@ -365,3 +365,28 @@ a.list-row:hover strong, button.list-row:hover strong { text-decoration: underli
 .prose img { max-width: 100%; border-radius: 10px; }
 .prose .table-wrap td, .prose .table-wrap th { padding-right: 16px; }
 .push-right { margin-right: auto; }
+
+/* To-do */
+.star[aria-pressed='true'] { color: var(--ink); }
+.star[aria-pressed='true'] svg { fill: var(--accent); }
+.check-row { font-weight: 550; min-height: 34px; cursor: pointer; }
+.check-row input { width: 20px; height: 20px; accent-color: var(--ink); }
+.completed summary { cursor: pointer; font-weight: 650; min-height: 24px; }
+.completed[open] summary { margin-bottom: 8px; }
+
+/* The phone top bar is tight. A healthy status is shown by its dot alone. */
+@media (max-width: 480px) {
+  .topbar .sync-good .sync-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* To-do input: the highlight sits behind a transparent input, in the same position */
+.todo-input { position: relative; background: var(--surface); border-radius: 10px; min-width: 0; }
+.todo-input input { position: relative; background: transparent; }
+.todo-mirror { position: absolute; inset: 0; color: transparent; white-space: pre; overflow: hidden; pointer-events: none; background: transparent; }
+.todo-mirror mark { color: transparent; background: color-mix(in srgb, var(--accent) 55%, transparent); border-radius: 4px; box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent); }
+.due-found { display: inline-flex; align-items: center; gap: 7px; font-size: 0.88rem; padding: 2px 4px 2px 10px; background: var(--surface-2); border-radius: 999px; }
+.due-found button { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 0; background: transparent; color: var(--ink-2); border-radius: 50%; cursor: pointer; }
+.due-found button:hover { background: var(--surface); color: var(--ink); }
+.todo-add div[aria-live]:empty { display: none; }
+.due-pick { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.due-input { width: 170px; min-height: 36px; padding: 4px 8px; }

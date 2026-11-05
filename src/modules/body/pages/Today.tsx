@@ -9,6 +9,7 @@ import { DaySummary } from './Diet';
 import { QuickLog } from './Metrics';
 import { startEmpty, startFromRoutine } from '../session-actions';
 import { StudyTodayCard } from '../../studies/TodayCard';
+import { TodoTodayCard } from '../../todo/TodayCard';
 
 export function TodayPage() {
   const status = useSyncStatus();
@@ -87,6 +88,8 @@ export function TodayPage() {
             </div>
           )}
         </section>
+
+        <TodoTodayCard />
 
         <StudyTodayCard />
       </div>
